@@ -1,0 +1,56 @@
+  <nav class="navbar navbar-expand-lg" style="background-color: #4B4A72;">
+    <div class="container">
+      <a class="navbar-brand text-white" routerLink="product">
+        E-commence<span style="color: #3498db;">.</span>
+      </a>
+      <button
+        class="navbar-toggler text-white"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+  
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link text-white" routerLink="user">User</a>
+          </li>
+          
+  
+          <li class="nav-item">
+            <a class="nav-link text-white" routerLink="/product">Product</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" routerLink="/orderItem">Shopping</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white" routerLink="/order">Order</a>
+          </li>
+  
+          <!-- <li class="nav-item dropdown">
+            <a
+              class="nav-link dropdown-toggle text-white"
+              href="#"
+              id="navbarDropdown"
+              role="button"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+            >
+              ABOUT
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" routerLink="/about/our-story">Story</a></li>
+              <li><a class="dropdown-item" routerLink="/about/team">Team</a></li>
+            </ul>
+          </li> -->
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <router-outlet></router-outlet>
+  

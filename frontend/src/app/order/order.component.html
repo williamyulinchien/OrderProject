@@ -1,0 +1,222 @@
+<div class="container mt-5 text-center align-middle">
+    <h2 class="mb-4">Orders</h2>
+    <div class="table-responsive">
+      <table class="table table-striped table-hover table-bordered align-middle">
+        <thead class="table-light">
+          <tr>
+            <th scope="col" class="text-center align-middle">Order Number</th>
+            <th scope="col" class="text-center align-middle">User ID</th>
+            <th scope="col" class="text-center align-middle">Order Date</th>
+            <th scope="col" class="text-center align-middle">Total Amount</th>
+            <th scope="col" class="text-center align-middle">Status</th>
+            <th scope="col" class="text-center align-middle">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let order of orderList; let i = index">
+            <th scope="row">{{ order.orderId}}</th>
+            <td class="text-center align-middle">{{ order.userId}}</td>
+            <td class="text-center align-middle">{{ order.createdAt | date }}</td>
+            <td class="text-center align-middle">{{ order.totalPrice| currency }}</td>
+            <td class="text-center align-middle">{{ order.status }}</td>
+            <td>
+              <button type="button" class="btn btn-primary btn-sm" data-bs-toggle="modal" data-bs-target="#orderModal" >Edit</button>
+              <button type="button" class="btn btn-danger btn-sm" (click)="onDeleteOrder(order.userId,order.orderId)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <!-- <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#orderModal" (click)="onCreate()">Create New Order</button> -->
+  </div>
+
+
+<div
+  class="modal fade"
+  id="orderModal"
+  tabindex="-1"
+  aria-labelledby="orderModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="orderModalLabel">
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <h4>Order Items:</h4>
+        <table class="table table-striped">
+           
+          <thead>
+            <tr>
+              <th scope="col">Product Name</th>
+              <th scope="col">Quantity</th>
+              <th scope="col">Price</th>
+              <th scope="col">Subtotal</th>
+              <th scope="col">Actions</th>
+            </tr>
+          </thead>
+          
+        
+            <tbody>
+                <ng-container *ngFor="let order of orderList; let i = index">
+                <tr *ngFor="let item of order.orderItems let j= index">
+                  <td class="text-center align-middle">
+                    <input
+                    type="text"
+                    class="form-control"
+                    name="productName{{ i }}"
+                    [(ngModel)]="orderList[i].orderItems[j].productName"
+                    [readonly]="true"
+                  /> 
+                  </td>
+                  <td class="text-center align-middle">
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="quantity{{ i }}"
+                      [(ngModel)]="orderList[i].orderItems[j].quantity"
+                      (input)="updateSubtotal(i, j)"
+                      required
+                    />
+                  </td>
+                  <td class="text-center align-middle">
+                    <input
+                      type="number"
+                      class="form-control"
+                      name="price{{ i }}"
+                      [(ngModel)]="orderList[i].orderItems[j].price"
+                      [readonly]="true"
+                    />
+                  </td>
+                  <td class="text-center align-middle">
+                    <input
+                      type="text"
+                      class="form-control"
+                      name="subtotal{{ i }}"
+                      [(ngModel)]="orderList[i].orderItems[j].subtotal"
+                      [value]="orderList[i].orderItems[j].subtotal | currency"
+                      [readonly]="true"
+                    />
+                  </td>
+                  <td class="text-center align-middle">
+                    <button
+                      type="button"
+                      class="btn btn-success btn-sm"
+                      (click)="onUpdateOrderItem(orderList[i].userId,orderList[i].orderId,orderList[i].orderItems[j].orderItemId,i,j)"
+                    >
+                      Save
+                    </button>
+                  </td>
+                  <td class="text-center align-middle">
+                    <button
+                      type="button"
+                      class="btn btn-danger btn-sm"
+                    (click)= "onDeleteOrderItem(orderList[i].userId,orderList[i].orderId,orderList[i].orderItems[j].orderItemId)"
+                     >
+                      Delete
+                    </button>
+                  </td>
+                </tr>
+         
+        </ng-container>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container mt-5">
+    <div class="mb-3">
+        <h4 class="text-center align-middle"> Create a new order:</h4>
+    </div>
+    <form [formGroup]="orderForm" (ngSubmit)="onSubmit()">
+      <div class="mb-3">
+        <label for="userSelect" class="form-label">Select User</label>
+        <select
+          id="userSelect"
+          formControlName="userId"
+          class="form-select"
+          required
+        >
+          <option *ngFor="let user of userList" [value]="user.userId">
+            {{ user.firstName }} {{ user.lastName }} 
+          </option>
+        </select>
+      </div>
+      <pre>{{ orderForm.value | json }}</pre>
+<pre>{{ orderForm.status }}</pre>
+<div *ngIf="orderForm.errors">
+  <pre>{{ orderForm.errors | json }}</pre>
+</div>
+      <div formArrayName="orderItems">
+        <div *ngFor="let item of orderItems.controls; let i = index"
+          [formGroupName]="i"
+          class="mb-3 border p-3 rounded"
+        >
+          <div class="row g-3 align-items-center">
+            <div class="col-md-6">
+              <label for="productSelect{{ i }}" class="form-label">Select Product</label>
+              <select
+                id="productSelect{{ i }}"
+                formControlName="productId"
+                class="form-select"
+                (change)="orderForm.updateValueAndValidity()"
+                
+                required
+              >
+                <option *ngFor="let product of products" [value]="product.productId" >
+                  {{ product.productName }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label for="quantity{{ i }}" class="form-label">Quantity</label>
+                
+              <input
+                type="number"
+                id="quantity{{ i }}"
+                formControlName="quantity"
+                class="form-control"
+                min="1"
+            
+              />
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+              <button
+                type="button"
+                class="btn btn-danger"
+                (click)="removeOrderItem(i)"
+              >
+                Remove
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="d-flex justify-content-between">
+        <button type="button" class="btn btn-secondary" (click)="addOrderItem()">
+          Add Order Item
+        </button>
+        <button type="submit" class="btn btn-primary" (click)="createOrderItem()" [disabled]="orderForm.invalid">
+          Submit Order
+        </button>
+      </div>
+    </form>
+  </div>
