@@ -45,6 +45,7 @@ public class User {
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Order> orders;
+
     @Column(nullable = false)
     private String profileImageUrl = "https://example.com/default_user.png";
 

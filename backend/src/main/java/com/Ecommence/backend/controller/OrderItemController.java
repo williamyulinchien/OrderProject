@@ -23,7 +23,7 @@ public class OrderItemController {
             @PathVariable Long userId,
             @PathVariable Long orderId,
             @RequestBody@Valid OrderItemRequestDto orderItemRequestDto) {
-        OrderItemResponseDto orderItemResponse = orderItemService.createOrderItem(orderId, orderItemRequestDto);
+        OrderItemResponseDto orderItemResponse = orderItemService.createOrderItem(orderId,userId,orderItemRequestDto);
         return new ResponseEntity<>(orderItemResponse, HttpStatus.CREATED);
     }
 

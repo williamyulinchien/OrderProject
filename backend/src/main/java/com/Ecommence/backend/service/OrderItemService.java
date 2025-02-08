@@ -6,7 +6,7 @@ import com.Ecommence.backend.dto.OrderItemResponseDto;
 public interface OrderItemService {
 
 
-        OrderItemResponseDto createOrderItem(Long orderId, OrderItemRequestDto orderItemRequestDto);
+        OrderItemResponseDto createOrderItem(Long orderId,Long userId, OrderItemRequestDto orderItemRequestDto);
 
         OrderItemResponseDto updateOrderItem(Long orderItemId, OrderItemRequestDto orderItemRequestDto);
 

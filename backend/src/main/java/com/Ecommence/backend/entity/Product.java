@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
@@ -11,6 +13,7 @@ import lombok.Setter;
 public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name ="product_id", nullable = false)
     private Long id;
 
     @Column(nullable = false)
@@ -25,6 +28,9 @@ public class Product {
     @Column(nullable = false)
     private Integer quantity;
     @Column(nullable = false)
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.REMOVE,orphanRemoval = true)
+    private List<OrderItem> orderItems;
 
     private String productImageUrl = "https://example.com/default_product.png";
 }

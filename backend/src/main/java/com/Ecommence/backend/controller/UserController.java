@@ -12,6 +12,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/users")
+@CrossOrigin(origins = "http://localhost:4200")
 public class UserController {
     // DI dependency
     private final UserService userService;
@@ -46,6 +47,6 @@ public class UserController {
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteUser(@PathVariable Long id) {
         userService.deleteUser(id);
-        return ResponseEntity.ok("User delete successfully!");
+        return ResponseEntity.ok("{user:User delete successfully!}");
     }
 }

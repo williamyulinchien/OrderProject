@@ -5,6 +5,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -14,6 +17,7 @@ import lombok.Setter;
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name ="orderItem_id", nullable = false)
     private Long Id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -22,6 +26,7 @@ public class OrderItem {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Product product;
 
     @Column(nullable = false)
@@ -29,9 +34,11 @@ public class OrderItem {
 
     @Column(nullable = false)
     private Double price;
-
+    @Version
+    private Integer version;
     @Column(nullable = false)
     private Double subtotal;
+
     public OrderItem(Order order, Product product, Integer quantity, Double price) {
         this.order = order;
         this.product = product;

@@ -18,11 +18,11 @@ public class OrderItemMapper {
         }
         OrderItemResponseDto orderItemResponseDto =  new OrderItemResponseDto();
         orderItemResponseDto.setOrderItemId((orderItem.getId()));
-        orderItemResponseDto .setProductId(orderItem.getProduct().getId());    // 产品 ID
-        orderItemResponseDto.setProductName(orderItem.getProduct().getName()); // 产品名称
-        orderItemResponseDto .setPrice(orderItem.getPrice());              // 单价
-        orderItemResponseDto.setQuantity(orderItem.getQuantity());          // 数量
-        orderItemResponseDto .setSubtotal(orderItem.getSubtotal());          // 小计
+        orderItemResponseDto .setProductId(orderItem.getProduct().getId());
+        orderItemResponseDto.setProductName(orderItem.getProduct().getName());
+        orderItemResponseDto .setPrice(orderItem.getPrice());
+        orderItemResponseDto.setQuantity(orderItem.getQuantity());
+        orderItemResponseDto .setSubtotal(orderItem.getSubtotal());
         return orderItemResponseDto;
     }
 
